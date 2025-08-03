@@ -1,0 +1,10 @@
+# Configuration de démarrage pour Azure App Service
+# Ce fichier sera utilisé pour configurer la commande de démarrage
+
+# Commande gunicorn pour FastAPI
+gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout 120 --keep-alive 5 --max-requests 1000 --max-requests-jitter 100
+
+# Variables d'environnement recommandées
+# WEBSITES_PORT=8000
+# PYTHONPATH=/home/site/wwwroot
+# SCM_DO_BUILD_DURING_DEPLOYMENT=true

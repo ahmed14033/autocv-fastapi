@@ -1,0 +1,42 @@
+# Configuration Azure App Service pour FastAPI
+# Ce fichier contient la configuration de démarrage pour l'application
+
+# Commande de démarrage Gunicorn pour FastAPI
+startup_command: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout 120 --keep-alive 5 --max-requests 1000 --max-requests-jitter 100
+
+# Variables d'environnement
+environment_variables:
+  WEBSITES_PORT: 8000
+  PYTHONPATH: /home/site/wwwroot
+  SCM_DO_BUILD_DURING_DEPLOYMENT: true
+
+# Configuration de l'application
+app_settings:
+  runtime_stack: python
+  python_version: 3.11
+  startup_file: main.py
+  startup_command: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+
+# Points d'entrée de l'application
+endpoints:
+  - path: /
+    method: GET
+    description: Health check
+  - path: /generate
+    method: POST
+    description: Génération de lettre de motivation et PDF
+  - path: /docs
+    method: GET
+    description: Documentation Swagger UI
+
+# Configuration des logs
+logging:
+  application_logs: /home/LogFiles/Application/
+  stdout_logs: /home/LogFiles/stdout
+  error_logs: /home/LogFiles/error
+
+# Configuration de monitoring
+monitoring:
+  health_check_path: /
+  metrics_enabled: true
+  logs_enabled: true 
